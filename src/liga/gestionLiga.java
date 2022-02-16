@@ -29,11 +29,15 @@ public class gestionLiga {
         paises paisIdMayor = null;
         paises paisNuevo = null;
         int idPaisACrear;
+        Jugadores j;
         
         //si listado tiene resultado, no está vacio, quiere decir que hay un pais que concuerde
         //con el pais introducido por parametro.
         if (listadoPais.hasNext()) {
-            p = listadoPais.getFirst();  
+            p = listadoPais.getFirst();
+            
+            j = new Jugadores(nombre, deporte, ciudad, edad, p);
+            
         } else {// y si no, creo el pais que ha introducido con el id siguiente al nr mayor de ID
             //ordeno el resultado de la query inversamente
             query.orderByDesc("id");
@@ -43,10 +47,11 @@ public class gestionLiga {
             idPaisACrear = paisIdMayor.getId() + 1;
             
             paisNuevo = new paises (idPaisACrear, pais);
+            
+            j = new Jugadores(nombre, deporte, ciudad, edad, paisNuevo);
                         
         }
         
-        Jugadores j = new Jugadores(nombre, deporte, ciudad, edad, paisNuevo);
         
         odb.store(j);
         odb.close();
