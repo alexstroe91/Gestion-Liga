@@ -58,4 +58,13 @@ public class gestionLiga {
         
     }
     
+    public void bajaJugador(String nombre){
+        //conecto con la base de datos
+        ODB odb = ODBFactory.open("Juego2.test");
+        //hago la query
+        IQuery query = new CriteriaQuery(Jugadores.class, Where.equal("nombre", nombre));
+        
+        
+    }
+    
 }
