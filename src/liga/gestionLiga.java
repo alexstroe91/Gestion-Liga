@@ -64,6 +64,17 @@ public class gestionLiga {
         //hago la query
         IQuery query = new CriteriaQuery(Jugadores.class, Where.equal("nombre", nombre));
         
+        //Creo una lista de objetos Jugadores con el resultado de la query
+        Objects<Jugadores> listadoJugadores = odb.getObjects(query);
+        
+        Jugadores j;
+        
+        if (listadoJugadores.hasNext()) {
+            j = listadoJugadores.getFirst();
+            odb.delete(j);
+        } else {
+            System.out.println("No se ha encontrado ningun jugador con ese nombre.");
+        }
         
     }
     
