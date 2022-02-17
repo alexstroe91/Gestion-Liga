@@ -5,6 +5,9 @@
  */
 package liga;
 
+import javax.swing.JOptionPane;
+import org.neodatis.odb.Objects;
+
 /**
  *
  * @author DAM2A-28
@@ -31,6 +34,9 @@ public class LigaJFrame extends javax.swing.JFrame {
 
         btnInsertar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
+        btnConsultar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,25 +54,48 @@ public class LigaJFrame extends javax.swing.JFrame {
             }
         });
 
+        btnConsultar.setText("CONSULTAR");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
+
+        txtArea.setColumns(20);
+        txtArea.setRows(5);
+        jScrollPane1.setViewportView(txtArea);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnInsertar)
-                    .addComponent(btnBorrar))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(267, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnInsertar)
+                        .addGap(44, 44, 44)
+                        .addComponent(btnBorrar)
+                        .addGap(12, 12, 12))
+                    .addComponent(btnConsultar, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(258, 258, 258))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(btnInsertar)
-                .addGap(30, 30, 30)
-                .addComponent(btnBorrar)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBorrar)
+                    .addComponent(btnInsertar))
+                .addGap(18, 18, 18)
+                .addComponent(btnConsultar)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -82,6 +111,28 @@ public class LigaJFrame extends javax.swing.JFrame {
         borrarJframe borrar = new borrarJframe();
         borrar.show();
     }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        txtArea.setText("");
+        
+        String campo = JOptionPane.showInputDialog(this, "Introduce el campo a buscar ( PAIS / DEPORTE / TODO)");
+        
+        String buscar = "";
+        
+        if (!campo.equalsIgnoreCase("todo")) {
+            buscar = JOptionPane.showInputDialog(this, "Introduce criterio a buscar");
+        }
+        
+        Objects<Jugadores> listado;
+        
+        listado = gLiga.consultarDatos(campo.toLowerCase(), buscar.toLowerCase());
+        
+        while (listado.hasNext()) {
+            Jugadores jug = listado.next();
+            txtArea.append(jug.toString());
+            txtArea.append("\n");
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -120,6 +171,9 @@ public class LigaJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnInsertar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
 }
