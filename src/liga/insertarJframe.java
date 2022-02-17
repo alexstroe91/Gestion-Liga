@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package liga;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author DAM2A-28
- */
 public class insertarJframe extends javax.swing.JFrame {
 
     gestionLiga gLiga = new gestionLiga();
@@ -123,12 +114,23 @@ public class insertarJframe extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, evt, "No puedes dejar los campos vacíos.", WIDTH);
         } else {
             
-            gLiga.insertarJugador(txtNombre.getText(), txtDeporte.getText(), txtCiudad.getText(), Integer.parseInt(txtEdad.getText()), txtPais.getText());
-                   
+            gLiga.insertarJugador(txtNombre.getText(), txtDeporte.getText(), txtCiudad.getText(), Integer.parseInt(txtEdad.getText()), txtPais.getText().toLowerCase());
+            
+            JOptionPane.showMessageDialog(this, "Jugador insertado.");
+            
+            vaciarCajas();
         }
         
     }//GEN-LAST:event_btnInsertarActionPerformed
 
+    public void vaciarCajas(){
+        txtNombre.setText("");
+        txtDeporte.setText("");
+        txtCiudad.setText("");
+        txtEdad.setText("");
+        txtPais.setText("");
+    }
+    
     /**
      * @param args the command line arguments
      */
