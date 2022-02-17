@@ -78,7 +78,9 @@ public class LigaJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:                                    
+        borrarJframe borrar = new borrarJframe();
+        borrar.show();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     /**
