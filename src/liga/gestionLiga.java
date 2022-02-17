@@ -5,6 +5,9 @@
  */
 package liga;
 
+import static java.awt.font.TextAttribute.WIDTH;
+import static java.awt.image.ImageObserver.WIDTH;
+import javax.swing.JOptionPane;
 import org.neodatis.odb.ODB;
 import org.neodatis.odb.ODBFactory;
 import org.neodatis.odb.Objects;
@@ -39,14 +42,21 @@ public class gestionLiga {
             j = new Jugadores(nombre, deporte, ciudad, edad, p);
             
         } else {// y si no, creo el pais que ha introducido con el id siguiente al nr mayor de ID
+            //vuelvo a hacer una query para que me recoja todos los paises, sin clausula WHERE
+            query = new CriteriaQuery(paises.class);
+            
             //ordeno el resultado de la query inversamente
             query.orderByDesc("id");
+            
+            //vuelvo a introducir en el listado, el resultado de la query
+            listadoPais = odb.getObjects(query);
             
             //recojo el primer resultado
             paisIdMayor = listadoPais.getFirst();
             idPaisACrear = paisIdMayor.getId() + 1;
             
-            paisNuevo = new paises (idPaisACrear, pais);
+            //creo el pais nuevo con el id siguiente al ID mayor encontrado en la base de datos y el nombre introducido
+            paisNuevo = new paises (idPaisACrear, pais.toLowerCase());
             
             j = new Jugadores(nombre, deporte, ciudad, edad, paisNuevo);
                         
@@ -58,9 +68,10 @@ public class gestionLiga {
         
     }
     
-    public void bajaJugador(String nombre){
+    public boolean bajaJugador(String nombre){
         //conecto con la base de datos
         ODB odb = ODBFactory.open("Juego2.test");
+        
         //hago la query
         IQuery query = new CriteriaQuery(Jugadores.class, Where.equal("nombre", nombre));
         
@@ -68,13 +79,20 @@ public class gestionLiga {
         Objects<Jugadores> listadoJugadores = odb.getObjects(query);
         
         Jugadores j;
+        boolean respuesta;
         
         if (listadoJugadores.hasNext()) {
             j = listadoJugadores.getFirst();
             odb.delete(j);
+            respuesta = true;
         } else {
-            System.out.println("No se ha encontrado ningun jugador con ese nombre.");
+            respuesta = false;
+            
         }
+        return respuesta;
+    }
+    
+    public void modificaCampo(String nombre, String campo){
         
     }
     
