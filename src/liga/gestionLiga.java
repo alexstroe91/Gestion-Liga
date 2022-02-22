@@ -89,11 +89,64 @@ public class gestionLiga {
             respuesta = false;
             
         }
+        odb.commit();
+        odb.close();
+        
         return respuesta;
-    }
-    
-    public void modificaCampo(String nombre, String campo){
         
     }
     
+    public void modificaCampo(String nombre, String deporte, String nuevoDeporte){
+        //conecto con la base de datos
+        ODB odb = ODBFactory.open("Juego2.test");
+        
+        //hago la query
+        IQuery query = new CriteriaQuery(Jugadores.class, (Where.and().add(Where.equal("deporte", deporte)).add(Where.equal("nombre", nombre))));
+        
+        //Creo una lista de objetos Jugadores con el resultado de la query
+        Objects<Jugadores> listado = odb.getObjects(query);
+        
+        Jugadores jug = null;
+        
+        if (listado.hasNext()) {
+            jug = listado.getFirst();
+            jug.setDeporte(nuevoDeporte);
+            odb.store(jug);
+        }
+        
+        odb.commit();
+        odb.close();
+    }
+    
+   public Objects<Jugadores> consultarDatos(String campo, String buscar){
+       
+       ODB odb = ODBFactory.open("Juego2.test");
+       CriteriaQuery query = null;
+       Objects<Jugadores> listado = null;
+       
+       if (campo.equalsIgnoreCase("deporte")) {
+           
+            query = new CriteriaQuery(Jugadores.class, Where.equal("deporte", buscar));
+            
+            listado = odb.getObjects(query);
+            
+        } else if (campo.equalsIgnoreCase("pais")) {
+           
+            query = new CriteriaQuery(Jugadores.class, Where.equal("pais", buscar));
+            
+            listado = odb.getObjects(query);
+           
+       } else if (campo.equalsIgnoreCase("todo")) {
+           
+            query = new CriteriaQuery(Jugadores.class);
+            
+            listado = odb.getObjects(query);
+           
+       }
+       
+       odb.close();
+       
+       return listado;
+   }
+   
 }
